@@ -10,10 +10,9 @@ import {
   Pill,
   Settings,
   CalendarPlus,
-  Clock,
   CheckCircle2,
-  Activity,
   ArrowRight,
+  Bot,
 } from "lucide-react";
 
 const navItems = [
@@ -21,6 +20,7 @@ const navItems = [
   { name: "Appointments", href: "/patient/appointments", icon: Calendar },
   { name: "Medical Records", href: "/patient/records", icon: FileText },
   { name: "Prescriptions", href: "/patient/prescriptions", icon: Pill },
+  { name: "Chatbot", href: "/patient/chatbot", icon: Bot },
   { name: "Messages", href: "/patient/messages", icon: MessageSquare },
   { name: "Settings", href: "/patient/settings", icon: Settings },
 ];
@@ -76,8 +76,8 @@ const PatientDashboard = () => {
           </Button>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* Stats Grid - Removed Health Score */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           <StatCard
             title="Upcoming Appointments"
             value={2}
@@ -100,15 +100,6 @@ const PatientDashboard = () => {
             icon={Pill}
             iconColor="text-accent"
             iconBg="bg-accent/10"
-          />
-          <StatCard
-            title="Health Score"
-            value="85%"
-            change="+5% from last month"
-            changeType="positive"
-            icon={Activity}
-            iconColor="text-warning"
-            iconBg="bg-warning/10"
           />
         </div>
 
