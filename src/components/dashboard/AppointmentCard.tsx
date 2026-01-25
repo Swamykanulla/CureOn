@@ -28,14 +28,16 @@ const AppointmentCard = ({
 }: AppointmentCardProps) => {
   const statusStyles = {
     upcoming: "badge-pending",
-    completed: "badge-success",
+    completed: "bg-muted text-muted-foreground",
     cancelled: "bg-destructive/10 text-destructive",
   };
 
   const name = userType === "patient" ? doctorName : patientName;
 
+  const isCompleted = status === "completed";
+
   return (
-    <div className="dashboard-card p-5 hover-lift">
+    <div className={`dashboard-card p-5 ${isCompleted ? "opacity-60 bg-muted/30" : "hover-lift"}`}>
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
           {avatar ? (

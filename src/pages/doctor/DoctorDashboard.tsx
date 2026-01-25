@@ -6,23 +6,18 @@ import {
   LayoutDashboard,
   Calendar,
   Users,
-  FileText,
   Clock,
   Settings,
-  Video,
   UserCheck,
-  TrendingUp,
-  Star,
+  Video,
   ArrowRight,
-  Plus,
 } from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", href: "/doctor/dashboard", icon: LayoutDashboard },
   { name: "Appointments", href: "/doctor/appointments", icon: Calendar },
   { name: "Patients", href: "/doctor/patients", icon: Users },
-  { name: "Consultations", href: "/doctor/consultations", icon: Video },
-  { name: "Schedule", href: "/doctor/schedule", icon: Clock },
+  { name: "Manage Availability", href: "/doctor/availability", icon: Clock },
   { name: "Settings", href: "/doctor/settings", icon: Settings },
 ];
 
@@ -75,30 +70,18 @@ const DoctorDashboard = () => {
       userAvatar="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
     >
       <div className="space-y-8">
-        {/* Welcome Section */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">
-              Good morning, Dr. Johnson! 🩺
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              You have 5 appointments scheduled for today
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline">
-              <Clock className="w-5 h-5" />
-              Manage Availability
-            </Button>
-            <Button variant="hero">
-              <Video className="w-5 h-5" />
-              Start Consultation
-            </Button>
-          </div>
+        {/* Welcome Section - Removed buttons */}
+        <div>
+          <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">
+            Good morning, Dr. Johnson! 🩺
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            You have 5 appointments scheduled for today
+          </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* Stats Grid - Removed Average Rating */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           <StatCard
             title="Today's Appointments"
             value={5}
@@ -116,22 +99,13 @@ const DoctorDashboard = () => {
             iconBg="bg-success/10"
           />
           <StatCard
-            title="Consultations"
+            title="Monthly Consultations"
             value={32}
             change="This month"
             changeType="neutral"
             icon={Video}
             iconColor="text-accent"
             iconBg="bg-accent/10"
-          />
-          <StatCard
-            title="Average Rating"
-            value="4.9"
-            change="Based on 156 reviews"
-            changeType="positive"
-            icon={Star}
-            iconColor="text-warning"
-            iconBg="bg-warning/10"
           />
         </div>
 
