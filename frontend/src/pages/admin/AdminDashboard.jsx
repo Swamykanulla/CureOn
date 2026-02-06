@@ -1,7 +1,11 @@
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
 import { useUser } from "@/context/UserContext";
+<<<<<<< HEAD
 import { LayoutDashboard, Users, Calendar, Settings, Stethoscope, CheckCircle2, Clock, XCircle, Pill, FlaskConical, AlertTriangle } from "lucide-react";
+=======
+import { LayoutDashboard, Users, Calendar, Settings, Stethoscope, CheckCircle2, Clock, XCircle, Pill, FlaskConical } from "lucide-react";
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
 
 const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
@@ -39,7 +43,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* Appointment Stats */}
+<<<<<<< HEAD
         <div className="grid lg:grid-cols-3 gap-6">
+=======
+        <div className="grid lg:grid-cols-2 gap-6">
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
           <div className="space-y-4">
             <h2 className="font-display text-xl font-semibold text-foreground">Appointment Overview</h2>
             <div className="dashboard-card p-5 space-y-4">
@@ -77,6 +85,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
 
           {/* Lab Equipment Issues */}
           <div className="space-y-4">
@@ -114,6 +123,8 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+=======
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
         </div>
       </div>
     </DashboardLayout>
