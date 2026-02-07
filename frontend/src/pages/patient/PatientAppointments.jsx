@@ -37,8 +37,18 @@ const PatientAppointments = () => {
   const [appointments, setAppointments] = useState([
     {
       id: "1",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.sarahJohnson",
       specialty: "appointments.specialties.general",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.sarahJohnson",
+      specialty: "appointments.specialties.general",
+=======
+      doctorName: "Sarah Johnson",
+      specialty: t('appointments.specialties.general'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2026, 0, 25), // Jan 25, 2026
       time: "10:00 AM",
       type: "video",
@@ -47,8 +57,18 @@ const PatientAppointments = () => {
     },
     {
       id: "2",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.michaelChen",
       specialty: "appointments.specialties.cardio",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.michaelChen",
+      specialty: "appointments.specialties.cardio",
+=======
+      doctorName: "Michael Chen",
+      specialty: t('appointments.specialties.cardio'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2026, 0, 28), // Jan 28, 2026
       time: "2:30 PM",
       type: "in-person",
@@ -57,8 +77,18 @@ const PatientAppointments = () => {
     },
     {
       id: "3",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.emilyWilliams",
       specialty: "appointments.specialties.derma",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.emilyWilliams",
+      specialty: "appointments.specialties.derma",
+=======
+      doctorName: "Emily Williams",
+      specialty: t('appointments.specialties.derma'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2026, 1, 5), // Feb 5, 2026
       time: "11:00 AM",
       type: "video",
@@ -69,8 +99,18 @@ const PatientAppointments = () => {
   const completedAppointments = [
     {
       id: "4",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.sarahJohnson",
       specialty: "appointments.specialties.general",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.sarahJohnson",
+      specialty: "appointments.specialties.general",
+=======
+      doctorName: "Sarah Johnson",
+      specialty: t('appointments.specialties.general'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2026, 0, 10), // Jan 10, 2026
       time: "10:00 AM",
       type: "video",
@@ -79,8 +119,18 @@ const PatientAppointments = () => {
     },
     {
       id: "5",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.jamesWilson",
       specialty: "appointments.specialties.ortho",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.jamesWilson",
+      specialty: "appointments.specialties.ortho",
+=======
+      doctorName: "James Wilson",
+      specialty: t('appointments.specialties.ortho'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2025, 11, 28), // Dec 28, 2025
       time: "3:00 PM",
       type: "in-person",
@@ -91,8 +141,18 @@ const PatientAppointments = () => {
   const cancelledAppointments = [
     {
       id: "6",
+<<<<<<< HEAD
       doctorName: "appointments.doctors.robertBrown",
       specialty: "appointments.specialties.neuro",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.doctors.robertBrown",
+      specialty: "appointments.specialties.neuro",
+=======
+      doctorName: "Robert Brown",
+      specialty: t('appointments.specialties.neuro'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       date: new Date(2026, 0, 5), // Jan 5, 2026
       time: "2:00 PM",
       type: "video",
@@ -104,6 +164,10 @@ const PatientAppointments = () => {
 
   const handleBookingConfirmed = (booking) => {
     const specNames = {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       general: "appointments.specialties.general",
       cardio: "appointments.specialties.cardio",
       neuro: "appointments.specialties.neuro",
@@ -111,11 +175,31 @@ const PatientAppointments = () => {
       eye: "appointments.specialties.eye",
       pedia: "appointments.specialties.pedia",
       derma: "appointments.specialties.derma",
+<<<<<<< HEAD
+=======
+=======
+      general: t('appointments.specialties.general'),
+      cardio: t('appointments.specialties.cardio'),
+      neuro: t('appointments.specialties.neuro'),
+      ortho: t('appointments.specialties.ortho'),
+      eye: t('appointments.specialties.eye'),
+      pedia: t('appointments.specialties.pedia'),
+      derma: t('appointments.specialties.derma'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
     };
 
     const newAppointment = {
       id: Date.now().toString(),
+<<<<<<< HEAD
       doctorName: "appointments.specialties.availableDoctor",
+=======
+<<<<<<< HEAD
+      doctorName: "appointments.specialties.availableDoctor",
+=======
+      doctorName: t('appointments.specialties.availableDoctor'),
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       specialty: specNames[booking.specialization] || booking.specialization,
       date: booking.date,
       time: booking.time,

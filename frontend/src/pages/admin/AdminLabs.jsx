@@ -1,8 +1,20 @@
 import { useState } from "react";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import AddLabModal from "@/components/admin/AddLabModal";
 import AdminEquipmentIssuesModal from "@/components/admin/AdminEquipmentIssuesModal";
+<<<<<<< HEAD
+=======
+=======
+import { Link } from "react-router-dom";
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import AddLabModal from "@/components/admin/AddLabModal";
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +34,14 @@ import {
   FlaskConical,
   MapPin,
   FileText,
+<<<<<<< HEAD
   AlertTriangle,
+=======
+<<<<<<< HEAD
+  AlertTriangle,
+=======
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -38,7 +57,15 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 
+<<<<<<< HEAD
 export const navItems = [
+=======
+<<<<<<< HEAD
+export const navItems = [
+=======
+const navItems = [
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Doctors", href: "/admin/doctors", icon: Stethoscope },
   { name: "Patients", href: "/admin/patients", icon: Users },
@@ -49,12 +76,24 @@ export const navItems = [
 ];
 
 const AdminLabs = () => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   const navigate = useNavigate();
   const [addLabModalOpen, setAddLabModalOpen] = useState(false);
   const [editLabModalOpen, setEditLabModalOpen] = useState(false);
   const [issuesModalOpen, setIssuesModalOpen] = useState(false);
   const [editingLab, setEditingLab] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+<<<<<<< HEAD
+=======
+=======
+  const [addLabModalOpen, setAddLabModalOpen] = useState(false);
+  const [editLabModalOpen, setEditLabModalOpen] = useState(false);
+  const [editingLab, setEditingLab] = useState(null);
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   const [labs, setLabs] = useState([
     { id: "1", name: "BioTest Diagnostics", license: "LB-54321", email: "info@biotest.com", phone: "+1 (555) 123-4567", address: "123 Main St, New York", status: "active", requests: 342 },
     { id: "2", name: "QuickLab Services", license: "LB-98765", email: "contact@quicklab.com", phone: "+1 (555) 234-5678", address: "456 Oak Ave, Los Angeles", status: "active", requests: 120 },
@@ -100,6 +139,10 @@ const AdminLabs = () => {
             <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">Labs</h1>
             <p className="text-muted-foreground mt-1">Manage registered laboratories</p>
           </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={() => setIssuesModalOpen(true)}>
               <AlertTriangle className="w-5 h-5 mr-2 text-destructive" />
@@ -110,10 +153,23 @@ const AdminLabs = () => {
               Add Lab
             </Button>
           </div>
+<<<<<<< HEAD
+=======
+=======
+          <Button variant="hero" onClick={() => setAddLabModalOpen(true)}>
+            <UserPlus className="w-5 h-5" />
+            Add Lab
+          </Button>
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
         </div>
 
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
           <Input 
             placeholder="Search labs..." 
             className="pl-10" 
@@ -134,6 +190,19 @@ const AdminLabs = () => {
               key={lab.id} 
               className="dashboard-card relative hover:shadow-lg transition-all group cursor-pointer"
               onClick={() => navigate(`/admin/labs/${lab.id}`)}
+<<<<<<< HEAD
+=======
+=======
+          <Input placeholder="Search labs..." className="pl-10" />
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {labs.map((lab) => (
+            <div 
+              key={lab.id} 
+              className="dashboard-card relative hover:shadow-lg transition-all group"
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
             >
               <div className="block p-5">
                 <div className="flex items-start justify-between mb-4">
@@ -206,12 +275,21 @@ const AdminLabs = () => {
         onLabAdded={handleLabAdded}
       />
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       {/* Equipment Issues Modal */}
       <AdminEquipmentIssuesModal
         open={issuesModalOpen}
         onOpenChange={setIssuesModalOpen}
       />
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
       {/* Edit Lab Modal */}
       <Dialog open={editLabModalOpen} onOpenChange={setEditLabModalOpen}>
         <DialogContent className="sm:max-w-lg">

@@ -1,6 +1,16 @@
 import { useState, useRef } from "react";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
+=======
+<<<<<<< HEAD
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+=======
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import PatientHistoryModal from "@/components/doctor/PatientHistoryModal";
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
@@ -20,7 +30,16 @@ import { toast } from "sonner";
 
 const DoctorPatients = () => {
   const { t } = useTranslation();
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+<<<<<<< HEAD
+  const navigate = useNavigate();
+=======
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [historyModalOpen, setHistoryModalOpen] = useState(false);
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   const [searchTerm, setSearchTerm] = useState("");
   const fileInputRefs = useRef({});
 
@@ -100,8 +119,19 @@ const DoctorPatients = () => {
     },
   ];
 
+<<<<<<< HEAD
   const handleViewDetails = (patientId) => {
     navigate(`/doctor/patients/${patientId}`);
+=======
+<<<<<<< HEAD
+  const handleViewDetails = (patientId) => {
+    navigate(`/doctor/patients/${patientId}`);
+=======
+  const handleViewHistory = (patient) => {
+    setSelectedPatient(patient);
+    setHistoryModalOpen(true);
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   };
 
   const handleUploadClick = (patientId) => {
@@ -181,8 +211,18 @@ const DoctorPatients = () => {
           {filteredPatients.length > 0 ? (
             filteredPatients.map((patient) => (
             <div key={patient.id} className="dashboard-card p-5 hover-lift">
+<<<<<<< HEAD
               <div className="flex items-start gap-4 mb-4 cursor-pointer group" onClick={() => handleViewDetails(patient.id)}>
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-300">
+=======
+<<<<<<< HEAD
+              <div className="flex items-start gap-4 mb-4 cursor-pointer group" onClick={() => handleViewDetails(patient.id)}>
+                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-300">
+=======
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                   {patient.avatar ? (
                     <img
                       src={patient.avatar}
@@ -196,7 +236,15 @@ const DoctorPatients = () => {
                   )}
                 </div>
                 <div className="min-w-0">
+<<<<<<< HEAD
                   <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">{patient.name}</h3>
+=======
+<<<<<<< HEAD
+                  <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">{patient.name}</h3>
+=======
+                  <h3 className="font-semibold text-foreground truncate">{patient.name}</h3>
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                   <p className="text-sm text-muted-foreground">{patient.age} {t('doctor.patients.yearsOld')}</p>
                   <span className="badge-status badge-pending mt-1">{patient.condition}</span>
                 </div>
@@ -229,7 +277,15 @@ const DoctorPatients = () => {
                   <Button variant="outline" size="sm" onClick={() => handleUploadClick(patient.id)}>
                     <Upload className="w-4 h-4" />
                   </Button>
+<<<<<<< HEAD
                   <Button variant="outline" size="sm" onClick={() => handleViewDetails(patient.id)}>
+=======
+<<<<<<< HEAD
+                  <Button variant="outline" size="sm" onClick={() => handleViewDetails(patient.id)}>
+=======
+                  <Button variant="outline" size="sm" onClick={() => handleViewHistory(patient)}>
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                     <FileText className="w-4 h-4 mr-2" />
                     {t('doctor.patients.history')}
                   </Button>
@@ -244,6 +300,28 @@ const DoctorPatients = () => {
           )}
         </div>
       </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+      {/* Patient History Modal */}
+      <PatientHistoryModal
+        open={historyModalOpen}
+        onOpenChange={setHistoryModalOpen}
+        patient={selectedPatient}
+        existingFiles={selectedPatient ? (patientFiles[selectedPatient.id] || []) : []}
+        onFileUpload={(file) => {
+          if (selectedPatient) {
+             setPatientFiles(prev => ({
+              ...prev,
+              [selectedPatient.id]: [...(prev[selectedPatient.id] || []), file]
+            }));
+          }
+        }}
+      />
+>>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
+>>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
     </DashboardLayout>
   );
 };
