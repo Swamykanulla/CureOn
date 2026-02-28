@@ -29,8 +29,8 @@ const navItems = [
 ];
 
 const PharmacyProfile = () => {
-  const { getUser, updateUser } = useUser();
-  const pharmacyProfile = getUser("pharmacy");
+  const { user } = useUser();
+  const pharmacyProfile = user;
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(pharmacyProfile || {});
@@ -61,7 +61,8 @@ const PharmacyProfile = () => {
   const handleSave = () => {
     setLoading(true);
     setTimeout(() => {
-      updateUser("pharmacy", formData);
+      // updateUser("pharmacy", formData);
+      console.log("Update user:", formData);
       setLoading(false);
       toast.success("Profile updated successfully");
     }, 1000);

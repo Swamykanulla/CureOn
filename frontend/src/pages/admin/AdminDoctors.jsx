@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import AddDoctorModal from "@/components/admin/AddDoctorModal";
@@ -40,6 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { userService } from "@/services/api";
 
 const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
@@ -69,34 +70,35 @@ const AdminDoctors = () => {
   const [addDoctorModalOpen, setAddDoctorModalOpen] = useState(false);
   const [editDoctorModalOpen, setEditDoctorModalOpen] = useState(false);
   const [editingDoctor, setEditingDoctor] = useState(null);
-<<<<<<< HEAD
-  const [searchQuery, setSearchQuery] = useState("");
-=======
-<<<<<<< HEAD
-  const [searchQuery, setSearchQuery] = useState("");
-=======
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-  const [doctors, setDoctors] = useState([
-    { id: "1", name: "Dr. Sarah Johnson", specialty: "General Physician", email: "sarah.j@medicare.com", phone: "+1 (555) 123-4567", status: "active", patients: 248 },
-    { id: "2", name: "Dr. Michael Chen", specialty: "Cardiologist", email: "michael.c@medicare.com", phone: "+1 (555) 234-5678", status: "active", patients: 186 },
-    { id: "3", name: "Dr. Emily Williams", specialty: "Dermatologist", email: "emily.w@medicare.com", phone: "+1 (555) 345-6789", status: "pending", patients: 0 },
-    { id: "4", name: "Dr. James Wilson", specialty: "Orthopedic", email: "james.w@medicare.com", phone: "+1 (555) 456-7890", status: "active", patients: 124 },
-    { id: "5", name: "Dr. Lisa Anderson", specialty: "Neurologist", email: "lisa.a@medicare.com", phone: "+1 (555) 567-8901", status: "active", patients: 95 },
-    { id: "6", name: "Dr. Robert Brown", specialty: "Pediatrician", email: "robert.b@medicare.com", phone: "+1 (555) 678-9012", status: "pending", patients: 0 },
-  ]);
+  const [doctors, setDoctors] = useState([]);
 
-  const handleDoctorAdded = (doctorData) => {
-    const newDoctor = {
-      id: Date.now().toString(),
-      name: doctorData.name.startsWith("Dr.") ? doctorData.name : `Dr. ${doctorData.name}`,
-      specialty: doctorData.specialization,
-      email: doctorData.email,
-      phone: doctorData.phone,
-      status: "pending",
-      patients: 0,
-    };
-    setDoctors((prev) => [...prev, newDoctor]);
+  const loadDoctors = async () => {
+    try {
+      const data = await userService.list("DOCTOR");
+      const mapped = data.map((u) => ({
+        id: String(u.id),
+        name: (u.first_name || u.last_name) ? `${u.first_name || ""} ${u.last_name || ""}`.trim() || `Dr. ${u.username}` : `Dr. ${u.username}`,
+        specialty: u.specialization || "",
+        email: u.email || "",
+        phone: u.phone || "",
+        status: u.is_active ? "active" : "inactive",
+        patients: 0,
+      }));
+      setDoctors(mapped);
+    } catch (e) {
+      console.error("Failed to load doctors", e);
+    }
+  };
+
+  useEffect(() => {
+    loadDoctors();
+  }, []);
+  useEffect(() => {
+    if (!addDoctorModalOpen) loadDoctors();
+  }, [addDoctorModalOpen]);
+
+  const handleDoctorAdded = async () => {
+    // Data is created in modal; reload list on close effect
   };
 
   const handleEditClick = (doctor) => {
@@ -104,15 +106,34 @@ const AdminDoctors = () => {
     setEditDoctorModalOpen(true);
   };
 
-  const handleDeleteClick = (doctorId) => {
-    setDoctors(doctors.filter((d) => d.id !== doctorId));
+  const handleDeleteClick = async (doctorId) => {
+    try {
+      await userService.delete(doctorId);
+      await loadDoctors();
+    } catch (e) {
+      console.error("Failed to delete doctor", e);
+    }
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (editingDoctor) {
-      setDoctors(doctors.map((d) => (d.id === editingDoctor.id ? editingDoctor : d)));
-      setEditDoctorModalOpen(false);
-      setEditingDoctor(null);
+      try {
+        const name = editingDoctor.name || "";
+        const [first_name, ...rest] = name.split(" ");
+        const payload = {
+          first_name,
+          last_name: rest.join(" "),
+          email: editingDoctor.email,
+          phone: editingDoctor.phone,
+          specialization: editingDoctor.specialty,
+        };
+        await userService.update(editingDoctor.id, payload);
+        setEditDoctorModalOpen(false);
+        setEditingDoctor(null);
+        await loadDoctors();
+      } catch (e) {
+        console.error("Failed to update doctor", e);
+      }
     }
   };
 
@@ -132,36 +153,11 @@ const AdminDoctors = () => {
 
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-          <Input 
-            placeholder="Search doctors..." 
-            className="pl-10" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {doctors
-            .filter((doctor) => 
-              doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              doctor.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              doctor.email.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((doctor) => (
-<<<<<<< HEAD
-=======
-=======
           <Input placeholder="Search doctors..." className="pl-10" />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {doctors.map((doctor) => (
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
             <div 
               key={doctor.id} 
               className="dashboard-card relative hover:shadow-lg transition-all group"

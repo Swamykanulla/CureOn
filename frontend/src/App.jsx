@@ -4,14 +4,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "@/context/UserContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ScrollToHashElement from "@/components/utils/ScrollToHashElement";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-<<<<<<< HEAD
-import ForgotPassword from "./pages/ForgotPassword";
-=======
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import PatientAppointments from "./pages/patient/PatientAppointments";
 import PatientRecords from "./pages/patient/PatientRecords";
@@ -22,27 +19,14 @@ import PatientProfile from "./pages/patient/PatientProfile";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import DoctorPatients from "./pages/doctor/DoctorPatients";
-<<<<<<< HEAD
-import DoctorPatientDetails from "./pages/doctor/DoctorPatientDetails";
-=======
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import DoctorAvailability from "./pages/doctor/DoctorAvailability";
 import DoctorSettings from "./pages/doctor/DoctorSettings";
 import DoctorProfile from "./pages/doctor/DoctorProfile";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDoctors from "./pages/admin/AdminDoctors";
 import AdminPatients from "./pages/admin/AdminPatients";
-<<<<<<< HEAD
-import AdminPatientDetails from "./pages/admin/AdminPatientDetails";
-import AdminLabs from "./pages/admin/AdminLabs";
-import AdminLabDetails from "./pages/admin/AdminLabDetails";
-import AdminPharmacy from "./pages/admin/AdminPharmacy";
-import AdminPharmacyInventory from "./pages/admin/AdminPharmacyInventory";
-import AdminPharmacyOrders from "./pages/admin/AdminPharmacyOrders";
-=======
 import AdminPharmacy from "./pages/admin/AdminPharmacy";
 import AdminLabs from "./pages/admin/AdminLabs";
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
 import AdminDoctorDetails from "./pages/admin/AdminDoctorDetails";
 import AdminAppointments from "./pages/admin/AdminAppointments";
 import AdminSettings from "./pages/admin/AdminSettings";
@@ -77,64 +61,77 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-<<<<<<< HEAD
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-=======
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
           {/* Patient Routes */}
-          <Route path="/patient/dashboard" element={<PatientDashboard />} />
-          <Route path="/patient/appointments" element={<PatientAppointments />} />
-          <Route path="/patient/records" element={<PatientRecords />} />
-          <Route path="/patient/prescriptions" element={<PatientPrescriptions />} />
-          <Route path="/patient/chatbot" element={<PatientChatbot />} />
-          <Route path="/patient/settings" element={<PatientSettings />} />
-          <Route path="/patient/profile" element={<PatientProfile />} />
+          <Route path="/patient/*" element={
+            <ProtectedRoute allowedRoles={['PATIENT']}>
+              <Routes>
+                <Route path="dashboard" element={<PatientDashboard />} />
+                <Route path="appointments" element={<PatientAppointments />} />
+                <Route path="records" element={<PatientRecords />} />
+                <Route path="prescriptions" element={<PatientPrescriptions />} />
+                <Route path="chatbot" element={<PatientChatbot />} />
+                <Route path="settings" element={<PatientSettings />} />
+                <Route path="profile" element={<PatientProfile />} />
+              </Routes>
+            </ProtectedRoute>
+          } />
           {/* Doctor Routes */}
-          <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-          <Route path="/doctor/appointments" element={<DoctorAppointments />} />
-          <Route path="/doctor/patients" element={<DoctorPatients />} />
-<<<<<<< HEAD
-          <Route path="/doctor/patients/:id" element={<DoctorPatientDetails />} />
-=======
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-          <Route path="/doctor/availability" element={<DoctorAvailability />} />
-          <Route path="/doctor/settings" element={<DoctorSettings />} />
-          <Route path="/doctor/profile" element={<DoctorProfile />} />
+          <Route path="/doctor/*" element={
+            <ProtectedRoute allowedRoles={['DOCTOR']}>
+              <Routes>
+                <Route path="dashboard" element={<DoctorDashboard />} />
+                <Route path="appointments" element={<DoctorAppointments />} />
+                <Route path="patients" element={<DoctorPatients />} />
+                <Route path="availability" element={<DoctorAvailability />} />
+                <Route path="settings" element={<DoctorSettings />} />
+                <Route path="profile" element={<DoctorProfile />} />
+              </Routes>
+            </ProtectedRoute>
+          } />
           {/* Admin Routes */}
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/doctors" element={<AdminDoctors />} />
-          <Route path="/admin/patients" element={<AdminPatients />} />
-<<<<<<< HEAD
-          <Route path="/admin/patients/:id" element={<AdminPatientDetails />} />
-          <Route path="/admin/labs" element={<AdminLabs />} />
-        <Route path="/admin/labs/:id" element={<AdminLabDetails />} />
-        <Route path="/admin/pharmacy" element={<AdminPharmacy />} />
-        <Route path="/admin/pharmacy/inventory" element={<AdminPharmacyInventory />} />
-        <Route path="/admin/pharmacy/orders" element={<AdminPharmacyOrders />} />
-=======
-          <Route path="/admin/pharmacy" element={<AdminPharmacy />} />
-          <Route path="/admin/labs" element={<AdminLabs />} />
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-          <Route path="/admin/doctors/:id" element={<AdminDoctorDetails />} />
-          <Route path="/admin/appointments" element={<AdminAppointments />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin/*" element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <Routes>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="doctors" element={<AdminDoctors />} />
+                <Route path="patients" element={<AdminPatients />} />
+                <Route path="pharmacy" element={<AdminPharmacy />} />
+                <Route path="labs" element={<AdminLabs />} />
+                <Route path="doctors/:id" element={<AdminDoctorDetails />} />
+                <Route path="appointments" element={<AdminAppointments />} />
+                <Route path="settings" element={<AdminSettings />} />
+                <Route path="profile" element={<AdminProfile />} />
+              </Routes>
+            </ProtectedRoute>
+          } />
           {/* Pharmacy Routes */}
-          <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
-          <Route path="/pharmacy/orders" element={<PharmacyOrders />} />
-          <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
-          <Route path="/pharmacy/history" element={<PharmacyHistory />} />
-          <Route path="/pharmacy/settings" element={<PharmacySettings />} />
-          <Route path="/pharmacy/profile" element={<PharmacyProfile />} />
+          <Route path="/pharmacy/*" element={
+            <ProtectedRoute allowedRoles={['PHARMACY']}>
+              <Routes>
+                <Route path="dashboard" element={<PharmacyDashboard />} />
+                <Route path="orders" element={<PharmacyOrders />} />
+                <Route path="inventory" element={<PharmacyInventory />} />
+                <Route path="history" element={<PharmacyHistory />} />
+                <Route path="settings" element={<PharmacySettings />} />
+                <Route path="profile" element={<PharmacyProfile />} />
+              </Routes>
+            </ProtectedRoute>
+          } />
           {/* Labs Routes */}
-          <Route path="/labs/dashboard" element={<LabsDashboard />} />
-          <Route path="/labs/requests" element={<LabsRequests />} />
-          <Route path="/labs/results" element={<LabsResults />} />
-          <Route path="/labs/equipment" element={<LabsEquipment />} />
-          <Route path="/labs/equipment/issues" element={<LabsEquipmentIssues />} />
-          <Route path="/labs/history" element={<LabsHistory />} />
-          <Route path="/labs/settings" element={<LabsSettings />} />
-          <Route path="/labs/profile" element={<LabsProfile />} />
+          <Route path="/labs/*" element={
+            <ProtectedRoute allowedRoles={['LAB']}>
+              <Routes>
+                <Route path="dashboard" element={<LabsDashboard />} />
+                <Route path="requests" element={<LabsRequests />} />
+                <Route path="results" element={<LabsResults />} />
+                <Route path="equipment" element={<LabsEquipment />} />
+                <Route path="equipment/issues" element={<LabsEquipmentIssues />} />
+                <Route path="history" element={<LabsHistory />} />
+                <Route path="settings" element={<LabsSettings />} />
+                <Route path="profile" element={<LabsProfile />} />
+              </Routes>
+            </ProtectedRoute>
+          } />
           <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

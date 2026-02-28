@@ -28,8 +28,8 @@ const navItems = [
 ];
 
 const PharmacyDashboard = () => {
-  const { getUser } = useUser();
-  const user = getUser("pharmacy");
+  const { user } = useUser();
+  // const user = getUser("pharmacy");
   const navigate = useNavigate();
 
   const handleReorder = (itemName) => {
@@ -101,7 +101,7 @@ const PharmacyDashboard = () => {
               Pharmacy Dashboard
             </h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back, {user?.name || "Pharmacist"}
+              Welcome back, {user?.first_name || user?.username || "Pharmacist"}
             </p>
           </div>
           <Button variant="hero" className="shrink-0" onClick={() => navigate("/pharmacy/orders")}>

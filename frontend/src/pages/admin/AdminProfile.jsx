@@ -38,8 +38,8 @@ const navItems = [
 ];
 
 const AdminProfile = () => {
-  const { getUser, updateUser } = useUser();
-  const adminProfile = getUser("admin");
+  const { user } = useUser();
+  const adminProfile = user;
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(adminProfile || {});
@@ -70,7 +70,8 @@ const AdminProfile = () => {
   const handleSave = () => {
     setLoading(true);
     setTimeout(() => {
-      updateUser("admin", formData);
+      // updateUser("admin", formData);
+      console.log("Update user:", formData);
       setLoading(false);
       toast.success("Profile updated successfully");
     }, 1000);

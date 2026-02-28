@@ -25,8 +25,8 @@ const navItems = [
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
-  const { getUser } = useUser();
-  const doctorProfile = getUser("doctor");
+  const { user } = useUser();
+  // const doctorProfile = getUser("doctor");
 
   const todayAppointments = [
     {
@@ -71,7 +71,7 @@ const DoctorDashboard = () => {
         {/* Welcome Section */}
         <div>
           <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">
-            Good morning, {doctorProfile?.name}! 🩺
+            Good morning, {user?.first_name || user?.username || "Doctor"}! 🩺
           </h1>
           <p className="text-muted-foreground mt-1">
             You have 5 appointments scheduled for today

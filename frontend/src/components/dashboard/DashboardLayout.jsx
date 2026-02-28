@@ -7,13 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Menu,
   X,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
   Bell,
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
   Search,
   ChevronDown,
   LogOut,
@@ -39,12 +33,11 @@ const DashboardLayout = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { getUser } = useUser();
+  const { user, logout } = useUser();
   const { t } = useTranslation();
   
-  const userProfile = getUser(userType);
-  const userName = userProfile?.name || propUserName;
-  const userAvatar = userProfile?.avatar || propUserAvatar;
+  const userName = user?.username || propUserName || "User";
+  const userAvatar = propUserAvatar; // Fallback or use user.avatar if available later
 
   const userTypeLabels = {
     patient: "Patient",
@@ -70,18 +63,8 @@ const DashboardLayout = ({
                 <Stethoscope className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="font-display font-bold text-lg text-sidebar-foreground">
-<<<<<<< HEAD
-            {t('landing.brandName')}
-          </span>
-=======
-<<<<<<< HEAD
-            {t('landing.brandName')}
-          </span>
-=======
                 MediCare
               </span>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
             </Link>
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-sidebar-accent"
@@ -143,18 +126,12 @@ const DashboardLayout = ({
             {/* Language Selector - Only for Patients */}
             {userType === 'patient' && <LanguageSelector />}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
             {/* Notifications */}
             <button className="relative p-2 rounded-lg hover:bg-secondary transition-colors">
               <Bell className="w-5 h-5 text-muted-foreground" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full" />
             </button>
 
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -186,7 +163,7 @@ const DashboardLayout = ({
                   {userType === 'patient' ? t('common.settings') : "Settings"}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/login")} className="text-destructive">
+                <DropdownMenuItem onClick={logout} className="text-destructive">
                   <LogOut className="w-4 h-4 mr-2" />
                   {userType === 'patient' ? t('common.logout') : "Logout"}
                 </DropdownMenuItem>
