@@ -4,11 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Stethoscope } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/dashboard/LanguageSelector";
+import { useUser } from "../../context/UserContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { user, logout } = useUser();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setIsOpen(false);
+  };
+
+  const getDashboardLink = () => {
+    if (!user) return "/";
+    return `/${user.role}/dashboard`;
+  };
 
   const navLinks = [
     { name: t("landing.nav.home"), href: "/" },
@@ -49,12 +62,25 @@ const Navbar = () => {
             {/* Language Selector */}
             <LanguageSelector />
 
-            <Button variant="ghost" onClick={() => navigate("/login")}>
-              {t("landing.nav.signIn")}
-            </Button>
-            <Button variant="hero" onClick={() => navigate("/register")}>
-              {t("landing.nav.getStarted")}
-            </Button>
+            {user ? (
+              <>
+                <Button variant="ghost" onClick={() => navigate(getDashboardLink())}>
+                  Dashboard
+                </Button>
+                <Button variant="hero" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" onClick={() => navigate("/login")}>
+                  {t("landing.nav.signIn")}
+                </Button>
+                <Button variant="hero" onClick={() => navigate("/register")}>
+                  {t("landing.nav.getStarted")}
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -89,12 +115,28 @@ const Navbar = () => {
               </div>
               <hr className="my-2 border-border/50" />
               <div className="flex flex-col gap-2 px-4">
-                <Button variant="outline" onClick={() => navigate("/login")}>
-                  {t("landing.nav.signIn")}
-                </Button>
-                <Button variant="hero" onClick={() => navigate("/register")}>
-                  {t("landing.nav.getStarted")}
-                </Button>
+                {user ? (
+                  <>
+                    <Button variant="outline" onClick={() => {
+                      navigate(getDashboardLink());
+                      setIsOpen(false);
+                    }}>
+                      Dashboard
+                    </Button>
+                    <Button variant="hero" onClick={handleLogout}>
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" onClick={() => navigate("/login")}>
+                      {t("landing.nav.signIn")}
+                    </Button>
+                    <Button variant="hero" onClick={() => navigate("/register")}>
+                      {t("landing.nav.getStarted")}
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>

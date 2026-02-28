@@ -11,43 +11,53 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, ShieldCheck, Stethoscope } from "lucide-react";
-<<<<<<< HEAD
-import { useTranslation } from "react-i18next";
-=======
-<<<<<<< HEAD
-import { useTranslation } from "react-i18next";
-=======
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
+import { useUser } from "@/context/UserContext";
+import { toast } from "sonner";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("patient");
+  const [role, setRole] = useState("Patient");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const { t } = useTranslation();
-=======
-<<<<<<< HEAD
-  const { t } = useTranslation();
-=======
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
+  const { login } = useUser();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Navigate based on user type
-    if (userType === "patient") {
-      navigate("/patient/dashboard");
-    } else if (userType === "doctor") {
-      navigate("/doctor/dashboard");
-    } else if (userType === "pharmacy") {
-      navigate("/pharmacy/dashboard");
-    } else if (userType === "labs") {
-      navigate("/labs/dashboard");
-    } else {
-      navigate("/admin/dashboard");
+    setLoading(true);
+
+    try {
+      const user = await login(username, password);
+      toast.success(`Welcome back, ${user.username}!`);
+      
+      // Navigate based on user role from backend
+      const role = user.role; 
+      if (role === "PATIENT") {
+        navigate("/patient/dashboard");
+      } else if (role === "DOCTOR") {
+        navigate("/doctor/dashboard");
+      } else if (role === "PHARMACY") {
+        navigate("/pharmacy/dashboard");
+      } else if (role === "LAB") {
+        navigate("/labs/dashboard");
+      } else if (role === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        // Fallback or unknown role
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      let errorMsg = "Login failed. Please check your credentials.";
+      
+      if (error.response?.data?.detail) {
+        errorMsg = error.response.data.detail;
+      }
+      
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,94 +71,43 @@ const Login = () => {
               <Stethoscope className="w-7 h-7 text-primary-foreground" />
             </div>
             <span className="font-display font-bold text-2xl text-foreground">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-              {t("landing.brandName")}
-            </span>
-          </Link>
-          <h1 className="text-2xl font-bold text-foreground">{t("auth.welcomeBack")}</h1>
-          <p className="text-muted-foreground mt-2">{t("auth.signInSubtitle")}</p>
-<<<<<<< HEAD
-=======
-=======
               MediCare
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Sign in to access your account</p>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
         </div>
 
         {/* Card */}
         <div className="bg-card rounded-2xl shadow-card border border-border/50 overflow-hidden">
           <div className="p-6">
-            {/* User Type Selection */}
-            <div className="mb-6 space-y-2">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-              <Label>{t("auth.signInAs")}</Label>
-              <Select value={userType} onValueChange={setUserType}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder={t("auth.selectRole")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="patient">{t("auth.roles.patient")}</SelectItem>
-                  <SelectItem value="doctor">{t("auth.roles.doctor")}</SelectItem>
-                  <SelectItem value="admin">{t("auth.roles.admin")}</SelectItem>
-                  <SelectItem value="pharmacy">{t("auth.roles.pharmacy")}</SelectItem>
-                  <SelectItem value="labs">{t("auth.roles.labs")}</SelectItem>
-<<<<<<< HEAD
-=======
-=======
-              <Label>Sign in as</Label>
-              <Select value={userType} onValueChange={setUserType}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="patient">Patient</SelectItem>
-                  <SelectItem value="doctor">Doctor</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="pharmacy">Pharmacy</SelectItem>
-                  <SelectItem value="labs">Labs</SelectItem>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-                </SelectContent>
-              </Select>
-            </div>
-
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-3">
-<<<<<<< HEAD
-                <Label htmlFor="email">{t("auth.emailLabel")}</Label>
-=======
-<<<<<<< HEAD
-                <Label htmlFor="email">{t("auth.emailLabel")}</Label>
-=======
-                <Label htmlFor="email">Email Address</Label>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
+                <Label>Sign in as</Label>
+                <Select value={role} onValueChange={setRole}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Patient">Patient</SelectItem>
+                    <SelectItem value="Doctor">Doctor</SelectItem>
+                    <SelectItem value="Admin">Admin</SelectItem>
+                    <SelectItem value="Pharmacy">Pharmacy</SelectItem>
+                    <SelectItem value="Labs">Labs</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="username">Username</Label>
                 <div className="relative group">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <Input
-                    id="email"
-                    type="email"
-<<<<<<< HEAD
-                    placeholder={t("auth.emailPlaceholder")}
-=======
-<<<<<<< HEAD
-                    placeholder={t("auth.emailPlaceholder")}
-=======
-                    placeholder="name@example.com"
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="pl-12 h-10 input-healthcare"
                     required
                   />
@@ -157,28 +116,12 @@ const Login = () => {
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-<<<<<<< HEAD
-                  <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-=======
-<<<<<<< HEAD
-                  <Label htmlFor="password">{t("auth.passwordLabel")}</Label>
-=======
                   <Label htmlFor="password">Password</Label>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                   <Link 
                     to="/forgot-password" 
                     className="text-xs font-medium text-primary hover:text-primary-dark hover:underline transition-colors"
                   >
-<<<<<<< HEAD
-                    {t("auth.forgotPassword")}
-=======
-<<<<<<< HEAD
-                    {t("auth.forgotPassword")}
-=======
                     Forgot password?
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                   </Link>
                 </div>
                 <div className="relative group">
@@ -186,15 +129,7 @@ const Login = () => {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-<<<<<<< HEAD
-                    placeholder={t("auth.passwordPlaceholder")}
-=======
-<<<<<<< HEAD
-                    placeholder={t("auth.passwordPlaceholder")}
-=======
                     placeholder="Enter your password"
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-12 pr-10 h-10 input-healthcare"
@@ -210,38 +145,18 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button type="submit" variant="hero" size="lg" className="w-full mt-2 group">
-<<<<<<< HEAD
-                {t("auth.signInBtn")} <span className="capitalize ml-1">{t(`auth.roles.${userType}`)}</span>
-=======
-<<<<<<< HEAD
-                {t("auth.signInBtn")} <span className="capitalize ml-1">{t(`auth.roles.${userType}`)}</span>
-=======
-                Sign In as <span className="capitalize ml-1">{userType}</span>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <Button type="submit" variant="hero" size="lg" className="w-full mt-2 group" disabled={loading}>
+                {loading ? "Signing in..." : `Sign In as ${role}`}
+                {!loading && <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />}
               </Button>
             </form>
           </div>
           
           <div className="bg-secondary/30 p-4 text-center border-t border-border/50">
             <p className="text-sm text-muted-foreground">
-<<<<<<< HEAD
-              {t("auth.noAccount")}{" "}
-              <Link to="/register" className="text-primary font-semibold hover:underline">
-                {t("auth.createAccount")}
-=======
-<<<<<<< HEAD
-              {t("auth.noAccount")}{" "}
-              <Link to="/register" className="text-primary font-semibold hover:underline">
-                {t("auth.createAccount")}
-=======
               Don't have an account?{" "}
               <Link to="/register" className="text-primary font-semibold hover:underline">
                 Create Account
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
               </Link>
             </p>
           </div>
@@ -250,15 +165,7 @@ const Login = () => {
         {/* Security Badge */}
         <div className="flex items-center justify-center gap-2 mt-8 text-sm text-muted-foreground/80">
           <ShieldCheck className="w-4 h-4" />
-<<<<<<< HEAD
-          <span>{t("auth.secureConnection")}</span>
-=======
-<<<<<<< HEAD
-          <span>{t("auth.secureConnection")}</span>
-=======
           <span>Secure, encrypted connection</span>
->>>>>>> 3599b65a2cc45bdc1f17c837ebdb978d629db18b
->>>>>>> 59b8e7775cb7b7208d45d4938b5be65f2fcabc68
         </div>
       </div>
     </div>

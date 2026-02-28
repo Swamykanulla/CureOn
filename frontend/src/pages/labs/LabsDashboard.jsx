@@ -29,9 +29,9 @@ const navItems = [
 ];
 
 const LabsDashboard = () => {
-  const { getUser } = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
-  const user = getUser("labs");
+  // const user = getUser("labs");
 
   // Mock data for lab stats
   const stats = [
@@ -105,7 +105,7 @@ const LabsDashboard = () => {
               Laboratory Dashboard
             </h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back, {user?.name || "Lab Technician"}
+              Welcome back, {user?.first_name || user?.username || "Lab Technician"}
             </p>
           </div>
           <Button variant="hero" className="shrink-0" onClick={() => navigate("/labs/results")}>

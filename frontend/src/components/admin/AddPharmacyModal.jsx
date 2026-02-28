@@ -24,6 +24,7 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
   });
 
   const [credentials, setCredentials] = useState({
+    username: "",
     email: "",
     password: "",
   });
@@ -44,14 +45,18 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
   const handleSubmit = () => {
     // Generate credentials
     const generatedPassword = generatePassword();
+    const defaultUsername =
+      (formData.email && formData.email.split("@")[0]) ||
+      formData.name.replace(/\s+/g, "").toLowerCase();
     setCredentials({
+      username: defaultUsername,
       email: formData.email,
       password: generatedPassword,
     });
     setStep("credentials");
     
     if (onPharmacyAdded) {
-      onPharmacyAdded(formData);
+      onPharmacyAdded({ ...formData, username: defaultUsername, password: generatedPassword });
     }
   };
 
@@ -75,31 +80,48 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
     onOpenChange(false);
   };
 
-  const handleSendEmail = async () => {
+  const handleSaveUser = async () => {
     setSending(true);
     try {
-      const response = await fetch("http://localhost:8000/api/send-credentials", {
+      const token = localStorage.getItem("access_token");
+      const res = await fetch("http://127.0.0.1:8000/api/auth/create-staff/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : undefined,
         },
         body: JSON.stringify({
+          username: credentials.username,
           email: credentials.email,
           password: credentials.password,
-          name: formData.name,
-          role: "Pharmacy",
+          role: "PHARMACY",
+          licenseNumber: formData.licenseNumber,
+          phone: formData.phone,
+          address: formData.address,
+          first_name: formData.name.split(" ")[0],
+          last_name: formData.name.split(" ").slice(1).join(" "),
         }),
       });
-
-      if (response.ok) {
-        toast.success("Credentials sent to email successfully!");
+      if (res.ok) {
+        toast.success("Pharmacy user created successfully");
         handleClose();
       } else {
-        toast.error("Failed to send email");
+        let msg = "Failed to create pharmacy user";
+        try {
+          const data = await res.json();
+          if (data.username?.[0]) msg = data.username[0];
+          else if (data.email?.[0]) msg = data.email[0];
+          else if (data.password?.[0]) msg = data.password[0];
+          else if (data.detail) msg = data.detail;
+        } catch {
+          const text = await res.text();
+          console.error(text);
+        }
+        toast.error(msg);
       }
     } catch (error) {
-      console.error("Error sending email:", error);
-      toast.error("Error sending email");
+      console.error("Error creating pharmacy user:", error);
+      toast.error("Error creating pharmacy user");
     } finally {
       setSending(false);
     }
@@ -201,9 +223,34 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
 
             <div className="space-y-4">
               <div className="space-y-2">
+                <Label>Username</Label>
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={credentials.username}
+                    onChange={(e) => setCredentials((c) => ({ ...c, username: e.target.value }))}
+                    className="bg-secondary"
+                  />
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleCopy("username")}
+                  >
+                    {copied === "username" ? (
+                      <Check className="w-4 h-4 text-success" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+              <div className="space-y-2">
                 <Label>Login Email</Label>
                 <div className="flex items-center gap-2">
-                  <Input value={credentials.email} readOnly className="bg-secondary" />
+                  <Input
+                    value={credentials.email}
+                    onChange={(e) => setCredentials((c) => ({ ...c, email: e.target.value }))}
+                    className="bg-secondary"
+                  />
                   <Button
                     variant="outline"
                     size="icon"
@@ -221,7 +268,11 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
               <div className="space-y-2">
                 <Label>Temporary Password</Label>
                 <div className="flex items-center gap-2">
-                  <Input value={credentials.password} readOnly className="bg-secondary font-mono" />
+                  <Input
+                    value={credentials.password}
+                    onChange={(e) => setCredentials((c) => ({ ...c, password: e.target.value }))}
+                    className="bg-secondary font-mono"
+                  />
                   <Button
                     variant="outline"
                     size="icon"
@@ -238,24 +289,24 @@ const AddPharmacyModal = ({ open, onOpenChange, onPharmacyAdded }) => {
             </div>
 
             <p className="text-sm text-muted-foreground text-center">
-              Please share these credentials with the pharmacy securely. They should change their password after first login.
+              Edit credentials if needed, then save to create the pharmacy user.
             </p>
 
-            <Button 
-              variant="hero" 
-              onClick={handleSendEmail} 
-              className="w-full"
-              disabled={sending}
-            >
-              {sending ? (
-                "Sending..."
-              ) : (
-                <>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Send to Email
-                </>
-              )}
-            </Button>
+            <div className="grid grid-cols-2 gap-3">
+              <Button 
+                variant="outline" 
+                onClick={handleClose}
+              >
+                Close
+              </Button>
+              <Button 
+                variant="hero" 
+                onClick={handleSaveUser} 
+                disabled={sending}
+              >
+                {sending ? "Saving..." : "Save User"}
+              </Button>
+            </div>
           </div>
         )}
       </DialogContent>

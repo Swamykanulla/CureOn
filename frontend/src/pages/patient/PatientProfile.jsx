@@ -18,8 +18,8 @@ import { toast } from "sonner";
 
 const PatientProfile = () => {
   const { t } = useTranslation();
-  const { getUser, updateUser } = useUser();
-  const patientProfile = getUser("patient");
+  const { user } = useUser();
+  const patientProfile = user;
   
   const navItems = [
     { name: t('common.dashboard'), href: "/patient/dashboard", icon: LayoutDashboard },
@@ -64,7 +64,8 @@ const PatientProfile = () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
-      updateUser("patient", formData);
+      // updateUser("patient", formData);
+      console.log("Update user:", formData);
       setLoading(false);
       toast.success(t('profile.success'));
     }, 1000);
